@@ -1,5 +1,7 @@
 <?php
 /*
+Plugin Name: Letras de canciones<?php
+/*
 Plugin Name: Letras de canciones
 Plugin URI: 
 Description: Pasandole el titulo de una cancion devuelve la letra de dicha cancion
@@ -29,12 +31,20 @@ add_action('init','sergio_registrer_shortcodes');
         
             //$result = wp_remote_get('https://api.musixmatch.com/ws/1.1/matcher.lyrics.get?format=json&callback=callback&q_track=iron%20maiden&q_artist=iron%20maiden&apikey=f37bb1f59ec257857a2086c7bdb4a1ea');
 
-            $result = wp_remote_get('https://api.musixmatch.com/ws/1.1/matcher.lyrics.get?format=json&callback=callback&q_track='.$args['cancion'].'.&q_artist='.$args['artista'].'&apikey=f37bb1f59ec257857a2086c7bdb4a1ea');
+            //$result = wp_remote_get('https://api.musixmatch.com/ws/1.1/matcher.lyrics.get?format=json&callback=callback&q_track='.$args['cancion'].'.&q_artist='.$args['artista'].'&apikey=f37bb1f59ec257857a2086c7bdb4a1ea');
 
-
-           return $result['body'].' '.esc_attr($content);
-
+             //return result['body'];
            
+            $url="https://api.musixmatch.com/ws/1.1/matcher.lyrics.get?format=json&callback=callback&q_track=".$args['cancion'].".&q_artist=".$args['artista']."&apikey=f37bb1f59ec257857a2086c7bdb4a1ea";
+          
+            $result = file_get_contents($url);
+              
+            $datos = json_decode($result,true);
+
+
+           // return $datos['message']['body']['lyrics']['lyrics_body'];
+            return $datos['message']['body']['lyrics']['lyrics_body'];           
 	}
 
+?>
 ?>
